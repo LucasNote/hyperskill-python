@@ -86,3 +86,64 @@ print(f'Rounding {needed_percent_number} to 1 decimal place is {needed_percent_n
 print('%.2f' % (21/4))
 
 # String formatting > Film
+movie = input()
+director = input()
+year = input()
+print(f'{movie} (dir. {director}) came out in {year}')
+print("{0} (dir. {1}) came out in {2}".format(movie, director, year))
+print("{movie} (dir. {director}) came out in {year}".format(movie=movie
+                                                            , director=director
+                                                            , year=year))
+
+# String formatting > Tax brackets
+"""
+0 — 15,527: 0% tax
+15,528 — 42,707: 15% tax
+42,708 — 132,406: 25% tax
+132,407 and more: 28% tax
+"""
+
+income = int(input())
+percent = 0
+calculated_tax = 0
+
+if income > 132406:
+    percent = 28
+elif income > 42707:
+    percent = 25
+elif income > 15527:
+    percent = 15
+
+# calculated_tax = int(round(income * percent / 100))
+calculated_tax = round(income * percent / 100)
+
+print(f"The tax for {income} is {percent}%. That is {calculated_tax} dollars!")
+# format = f"The tax for {income} is {percent}%. That is {calculated_tax} dollars!"
+# print(format)
+
+# Sample 1
+income = int(input())
+if income <= 15527:
+    tax = 0
+elif 1527 < income <= 42707:
+    tax = 15
+elif 42707 < income <= 132406:
+    tax = 25
+elif income > 132406:
+    tax = 28
+calculated_tax = (income * tax / 100)
+print(f'The tax for {income} is {tax}%. That is {calculated_tax:.0f} dollars!')
+
+
+# Sample 2
+tex_brackets = dict({15527: 0, 42707: 0.15, 132406: 0.25})
+income = int(input())
+
+for u in tex_brackets:
+    if income <= u:
+        percent = tex_brackets[u]
+        break
+else:
+    percent = 0.28
+
+print(f"The tax for {income} is {percent:.0%}. That is {round(income * percent)} dollars!")
