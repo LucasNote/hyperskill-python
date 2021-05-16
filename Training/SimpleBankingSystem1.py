@@ -1089,3 +1089,5 @@ print(p1.dist(p2))  # 1.0
 
 
 # changed from Windows 2021-05-16
+# git commit -m "Simple Banking System #1 20210516 8 (Win)"
+# git commit -m "Simple Banking System #1 20210516 9 (Win)"
