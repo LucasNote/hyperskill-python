@@ -1088,4 +1088,4 @@ print(p1.dist(p2))  # 1.0
 # -1 ** 2   # -1
 
 
-
+# changed from Windows 2021-05-16
