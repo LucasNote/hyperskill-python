@@ -46,11 +46,11 @@ inside string literals. This way is supposed to be the easiest one: you only nee
 and put the variables you want to embed into the string in curly braces. 
 They are also the newest feature among all string formatting methods in Python.
 """
-name = 'Elizabeth II'
+student_name = 'Elizabeth II'
 title = 'Queen of the United Kingdom and the other Commonwealth realms'
 reign = 'the longest-lived and longest-reigning British monarch'
-f'{name}, the {title}, is {reign}.'
-print(f'{name}, the {title}, is {reign}.')
+f'{student_name}, the {title}, is {reign}.'
+print(f'{student_name}, the {title}, is {reign}.')
 
 hundred_percent_number = 1823
 needed_percent = 16
@@ -258,8 +258,8 @@ children = {'Emily': {'profession': 'artist', 'age': 5},
 
 # Sample 1
 age = {'Emily': 5, 'Adam': 9, 'Nancy': 14}
-for name in children:
-    children[name] = {'profession': children[name], 'age': age[name]}
+for student_name in children:
+    children[student_name] = {'profession': children[student_name], 'age': age[student_name]}
 
 # Sample 2
 children = {'Emily': 'artist', 'Adam': 'astronaut', 'Nancy': 'programmer'}
@@ -299,8 +299,8 @@ string = input()
 print(len(string))
 
 # Invoking a function > Hello, world!
-name = input()
-print(f"Hello, world! Hello, {name}")
+student_name = input()
+print(f"Hello, world! Hello, {student_name}")
 
 # Invoking a function > Longest word
 word1 = input()
@@ -401,6 +401,7 @@ print(3)
 def get_sum(a, b):
     return int(a) + int(b)
 
+
 a, b = input().split()
 print(get_sum(a, b))
 
@@ -413,25 +414,31 @@ print(get_sum(a, b))
 a, b = input().split()
 print(get_sum(int(a), int(b)))
 
+
 # 4
 def get_sum(a, b):
     # return a + b
     return sum([a, b])
 
+
 a, b = map(int, input().split())
 print(get_sum(a, b))
 
+
 def get_sum(a: int, b: int) -> int:
     return a + b
+
 
 # Declaring a function > Fahrenheit
 def fahrenheit_to_celsius(temps_f):
     temps_c = (temps_f - 32) * 5 / 9
     return round(temps_c, 3)
 
+
 # Declaring a function > Fahrenheit
 water_bp = fahrenheit_to_celsius(451)
 print(water_bp)
+
 
 # Declaring a function > Make the function work
 def closest_higher_mod_5(x):
@@ -445,12 +452,14 @@ def closest_higher_mod_5(x):
 
     return "I don't know :("
 
+
 # Sample 1
 def closest_higher_mod_5(x):
     remainder = x % 5
     if remainder == 0:
         return x
     return x + (5 - remainder)
+
 
 closest_higher_mod_5(40)  # Output: 40
 closest_higher_mod_5(43)  # Output: 43
@@ -465,15 +474,18 @@ def closest_higher_mod_5(x):
 
     return closest_higher_mod_5(x + 1)
 
+
 print(closest_higher_mod_5(40))
 print(closest_higher_mod_5(43))
 
 # Scopes > Cities
 user_city = "Istanbul"
 
+
 def change_city(new_user_city):
     global user_city
     user_city = new_user_city
+
 
 change_city("Paris")
 print(user_city)
@@ -496,23 +508,24 @@ for _ in range(10):
 
 
 # Loop control statements > Commenting out
-name = 'John'
+student_name = 'John'
 age = 10
 # name = 'asdfghjkl'
 # age = -999
-print(name + ' ' + str(age))
+print(student_name + ' ' + str(age))
 
-import random                      # 1
+import random  # 1
+
 # 2
-n_guesses = 0                      # 3
-while n_guesses < 5:               # 4
+n_guesses = 0  # 3
+while n_guesses < 5:  # 4
     number = random.randint(1, 5)  # 5
     print('number', number)
-    guess = int(input())           # 6
-    if guess == number:            # 7
-        print('Yes!')              # 8
-    else:                          # 9
-        print('No!')               # 10
+    guess = int(input())  # 6
+    if guess == number:  # 7
+        print('Yes!')  # 8
+    else:  # 9
+        print('No!')  # 10
     # n_guesses += 1                 # 11
 
 # Theory: Load module
@@ -556,9 +569,11 @@ print(math.pi)  # math also contains several constants
 print(math.e)
 
 from string import digits
+
 print(digits)  # prints all the digit symbols
 
 from random import choice
+
 print(choice(['red', 'green', 'yellow']))  # print a random item from the list
 
 # Load module > Copysign function
@@ -571,6 +586,7 @@ print(math.copysign(x, y))  # -68.83573394536573
 
 # Sample 1
 from math import copysign
+
 x, y = map(float, input().split(' '))
 print(copysign(x, y))
 
@@ -630,8 +646,8 @@ print(random.choice('Voldemort'))  # e
 
 # random.randrange(a, b, c) – returns a pseudo-random number from a range between a and b with a step c.
 print(random.randrange(3, 100, 5))  # 18
-print(random.randrange(1, 5))       # 3
-print(random.randrange(100))        # 44
+print(random.randrange(1, 5))  # 3
+print(random.randrange(100))  # 44
 
 # random.shuffle(seq) – shuffles a sequence. Attention: it doesn't work with immutable datatypes!
 tiny_list = ['a', 'apple', 'b', 'banana', 'c', 'cat']
@@ -663,7 +679,6 @@ print(random.randint(1, 6))
 
 # sample
 print(random.randrange(1, 7))
-
 
 # Random module > Voldemort
 import random
@@ -697,13 +712,16 @@ class MyClass:
         # some method
         pass
 
+
 # good class name
 class MyClass:
     ...
 
+
 # not so good class name:
 class My_class:
     ...
+
 
 # 2. Class attribute
 
@@ -713,64 +731,361 @@ class Book:
     cover = "paperback"
     all_books = []
 
+
 Book.material  # "paper"
 Book.cover  # "paperback"
 Book.all_books  # []
 
+# 3. Class instance
+# Book instance
+my_book = Book()
 
-#1
-
-
-
-
-
-
-
+print(my_book.material)
+print(my_book.cover)
+print(my_book.all_books)
 
 
+# Class > Team time
+class Tea:
+    life_form = "plant"
+    purpose = "beverage"
 
 
+my_tea = Tea()
 
 
+# my_tea = Tea("plant")  # TypeError: Tea() takes no arguments
 
 
+class Tree:
+    trunk = True  # Class attribute
+    branches = True  # Class attribute
+
+    def __init__(self, name, height):
+        self.name = name  # Instance attribute
+        self.height = height  # Instance attribute
 
 
+my_tree = Tree('name', 5)
+print(my_tree.trunk)
+print(my_tree.branches)
+print(my_tree.name)
+print(my_tree.height)
 
 
+# Class > Who is who
+class Angel:
+    color = "white"
+    feature = "wings"
+    home = "Heaven"
 
 
+class Demon:
+    color = "red"
+    feature = "horns"
+    home = "Hell"
 
 
+angel = Angel()
+print(angel.color)
+print(angel.feature)
+print(angel.home)
+
+demon = Demon()
+print(demon.color)
+print(demon.feature)
+print(demon.home)
 
 
+# Class > The Creator
+class Elf:
+    height = 1.8
+    weapon = "longbow"
+    emotional_maturity = 125
 
 
+# class > Let's rock
+class RockBand:
+    genre = 'rock'
+    key_instruments = ["electric guitar", "drums"]
+    n_members = 4
 
 
+my_rockband = RockBand()
+my_rockband.genre = 'rock'
+my_rockband.key_instruments = ["electric guitar", "drums"]
+my_rockband.n_members = 4
+
+print(my_rockband.genre)
+print(my_rockband.n_members)
+print(my_rockband.key_instruments)
+
+# sample
+print(my_rockband.genre, my_rockband.n_members, my_rockband.key_instruments, sep="\n")
 
 
+# Theory: Class instances
+# 1. def __init__()
+class River:
+    # list of all rivers
+    all_rivers = []
+
+    def __init__(self, name, length):
+        self.name = name
+        self.length = length
+        # add current river to the list of all rivers
+        River.all_rivers.append(self)
 
 
+volga = River("Volga", 3530)
+seine = River("Seine", 776)
+nile = River("Nile", 6852)
+
+# print all river names
+for river in River.all_rivers:
+    print(river.student_name)
 
 
+# Output:
+# Volga
+# Seine
+# Nile
 
 
+# 2. self
+class River:
+    all_rivers = []
+
+    def __init__(self, name, length):
+        self.name = name
+        self.length = length
+        River.all_rivers.append(self)
+
+    def get_info(self):
+        print("The length of the {0} is {1} km".format(self.name, self.length))
 
 
+volga = River("Volga", 3530)
+seine = River("Seine", 776)
+nile = River("Nile", 6852)
+
+volga.get_info()
+seine.get_info()
+nile.get_info()
+
+"""
+Note that when we actually call an object's method we don't write the self argument 
+in the brackets. The self parameter (that represents a particular instance of the class) 
+is passed to the instance method implicitly when it is called. 
+So there are actually two ways to call an instance method: self.method() 
+or class.method(self). In our example it would look like this:
+
+# self.method()
+volga.get_info()
+# The length of the Volga is 3530 km
+
+# class.method(self)
+River.get_info(volga)
+# The length of the Volga is 3530 km
+"""
 
 
+# 3. Instance attributes
+# Instance attributes are defined within methods and they store instance-specific information.
+
+# Instance attributes, naturally, are used to distinguish objects: their values are different for different instances.
+
+# So when deciding which attributes to choose in your program, you should first decide
+# whether you want it to store values unique to each object of the class or,
+# on the contrary, the ones shared by all instances.
+
+# Class instances > Movie night
+class Movie:
+    def __init__(self, title, director, year):
+        self.title = title
+        self.director = director
+        self.year = year
 
 
+# objects of the class Movie
+titanic = Movie("Titanic", "James Cameron", 1997)
+star_wars = Movie("Star Wars", "George Lucas", 1977)
+fight_club = Movie("Fight Club", "David Fincher", 1999)
 
 
+# Class instances > Shopping
+class Store:
+    def __init__(self, name, category):
+        self.name = name
+        self.category = category
 
 
+shop = Store("GAP", "clothes")
+print(shop.name, shop.category)
 
 
+# Class instances > Students
+class Student:
+
+    def __init__(self, name, last_name, birth_year):
+        self.name = name
+        self.last_name = last_name
+        self.birth_year = birth_year
+
+        # calculate the student_id here
+        self.student_id = self.name[0] + last_name + str(birth_year)
 
 
+student_name = input()
+student_last_name = input()
+student_birth_year = int(input())
 
+DSmith = Student(student_name, student_last_name, student_birth_year)
+print(DSmith.student_id)
+
+
+# Theory: Methods
+# If attributes define the data that the objects of a particular class have, the methods define their behavior.
+
+# 1. Method syntax
+# basic method syntax
+class MyClass:
+    # the constructor
+    def __init__(self, arg1):
+        self.att = arg1
+
+    # custom method
+    def do_smt(self):
+        # does something
+        pass
+
+
+"""
+The first parameter of the method should always be self. You may remember that self represents the particular instance of the class. 
+When it comes to instance methods, the first parameter that is passed to the method is the instance that called it.
+"""
+my_object = MyClass('some_value')
+# calling the instance method
+my_object.do_smt()
+# my_object does something
+
+MyClass.do_smt(my_object)
+# my_object does the same thing
+
+# These examples clearly illustrate why self has to be the first argument of the instance methods.
+# If you want your method to have other parameters, just write them after the self keyword!
+
+
+# 2. Methods vs functions
+# "a method is a function that 'belongs to' an object."
+
+# class and its methods
+class Ship:
+    def __init__(self, name, capacity, cargo):
+        self.name = name
+        self.capacity = capacity
+        self.cargo = 0
+
+    def sail(self):
+        print("{} has sailed!".format(self.name))
+
+    def convert_cargo(self):
+        return self.cargo * 1000
+
+
+# function
+def sail_function(name):
+    print("{} has sailed!".format(name))
+
+# call the method sail of the class Ship and the function sail_function.
+# creating an instance of the class Ship
+# and calling the method sail
+black_pearl = Ship("Black Pearl", 800)
+black_pearl.sail()
+# prints "Black Pearl has sailed!"
+
+
+# calling the function sail_function
+sail_function(black_pearl.name)
+# also prints "Black Pearl has sailed!"
+
+
+# 3. Return
+black_pearl = Ship("Black Pearl", 800, 10)
+print(black_pearl.convert_cargo())  # 0
+
+# Methods > Open door policy
+class Door:
+    def open_door(self):
+        print("Door open")
+
+door = Door()
+door.open_door()
+Door.open_door(door)
+
+
+# Methods > Drive
+class Car:
+    def __init__(self, model):
+        self.model = model
+
+    def drive(self):
+        print("vroom vroom")
+
+my_car = Car("Volkswagen")
+my_car.drive()
+Car.drive(my_car)
+
+
+# Methods > Point
+# Create a class Point that will represent a point in space. Its constructor needs two parameters xx and yy,
+# the coordinates of a point on the plane. The class should have a method dist that takes another instance of Point
+# and returns the Euclidean distance between these two points. For Point(x1, y1) and Point(x2, y2),
+# calculate the distance according to the formula:
+# square root can be expressed as ** 0.5
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def dist(self, p1):
+        first = (self.x - p1.x) ** 2
+        second = (self.y - p1.y) ** 2
+        result = (first + second) ** 0.5
+        return result
+
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def dist(self, other):
+        print(self.y, other.y)
+        print(self.y - other.y)
+        print((self.y - other.y) ** 2)
+        return ((self.x - other.x) ** 2 + (self.y - other.y) ** 2) ** 0.5
+
+
+from math import sqrt
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def dist(self, p2):
+        return sqrt(pow(self.x - p2.x, 2) + pow(self.y - p2.y, 2))
+
+
+p1 = Point(1.5, 1)
+p2 = Point(1.5, 2)
+
+print(p1.dist(p2))  # 1.0
+
+# (-1) ** 2  # 1
+# -1 ** 2   # -1
 
 
 
