@@ -1091,3 +1091,307 @@ print(p1.dist(p2))  # 1.0
 # changed from Windows 2021-05-16
 # git commit -m "Simple Banking System #1 20210516 8 (Win)"
 # git commit -m "Simple Banking System #1 20210516 9 (Win)"
+
+# Methods > Batman
+class Batman:
+    def intimidate_villain(self):
+        pass
+
+Batman().intimidate_villain()
+
+batman = Batman()
+batman.intimidate_villain()
+
+Batman.intimidate_villain(batman)
+
+
+# Methods > Hexagon
+import math
+
+class Hexagon:
+    def __init__(self, side_length):
+        self.side_length = side_length
+
+    def get_area(self):
+        # create get_area here
+        # return round(((3 * math.sqrt(3) * (self.side_length * self.side_length)) / 2), 3)
+        return round(((3 * math.sqrt(3) * (self.side_length ** 2)) / 2), 3)
+
+    # create get_area here
+    def get_area2(self):
+        ans = 3 * math.sqrt(3) * self.side_length**2 / 2
+        return format(ans, ".3f")
+
+    def get_area3(self):
+        return round(3 * sqrt(3) * pow(self.side_length, 2) / 2, 3)
+
+
+t = float(input())
+hexagon = Hexagon(t)
+print(hexagon.get_area())
+print(hexagon.get_area2())
+
+
+# https://www.geeksforgeeks.org/area-of-a-hexagon/
+# https://realpython.com/python-data-types/#floating-point-numbers
+
+
+# Theory: Methods and attributes
+# 1. Creating attributes with methods
+class Ship:
+    def __init__(self, name, capacity):
+        self.name = name
+        self.capacity = capacity
+        self.cargo = 0
+        self.captain = None
+
+    def name_captain(self, cap):
+        self.captain = cap
+        print("{} is the captain of the {}".format(self.captain, self.name))
+
+black_pearl = Ship("Black Pearl", 800)
+
+# This is because this attribute is only created within the name_captain method.
+# If we call it, we will be able to access the attribute captain:
+print(black_pearl.captain)  # AttributeError, 'Ship' object has no attribute 'captain'
+
+black_pearl.name_captain("Jack Sparrow")
+# prints "Jack Sparrow is the captain of the Black Pearl"
+
+# Note that only those instances that have called this method,
+# will have the captain attribute. It's an important thing to remember!
+# You may get an error if you try to use the attribute and the method hasn't been called yet
+print(black_pearl.captain)  # "Jack Sparrow"
+
+# To avoid these problems, it is recommended to define all possible attributes in the __init__.
+# If you do want to create the value for the attribute in a special instance method,
+# then list it in the __init__ as None:
+
+
+# 2. Modifying attributes with methods
+class Ship:
+    def __init__(self, name, capacity):
+        self.name = name
+        self.capacity = capacity
+        self.cargo = 0
+
+    def load_cargo(self, weight):
+        if self.cargo + weight <= self.free_space():
+            self.cargo += weight
+            print("Loaded {} tons".format(weight), self.get_current())
+        else:
+            print("Cannot load that much", self.get_current())
+
+    def unload_cargo(self, weight):
+        if self.cargo - weight >= 0:
+            self.cargo -= weight
+            print("Unloaded {} tons".format(weight), self.get_current())
+        else:
+            print("Cannot unload that much", self.get_current())
+
+    def free_space(self):
+        return self.capacity - self.cargo
+
+    def get_current(self):
+        return f', cargo: {self.cargo}, free space: {self.capacity}'
+
+
+black_pearl = Ship("Black Pearl", 800)
+
+# example
+black_pearl.load_cargo(600)
+# "Loaded 600 tons"
+
+black_pearl.unload_cargo(400)
+# "Unloaded 400 tons"
+
+black_pearl.load_cargo(700)
+# "Cannot load that much"
+
+black_pearl.unload_cargo(300)
+# "Cannot unload that much"
+
+
+# Methods and attributes > Turtle
+class Turtle:
+    def __init__(self, x, y):
+        # the initial coordinates of the turtle
+        self.x = x
+        self.y = y
+
+    def move_up(self, n):
+        self.y += n
+        self.print_current(n)
+
+    def move_down(self, n):
+        self.y = 0 if n > self.y else self.y - n
+        self.print_current(n)
+
+    def move_right(self, n):
+        self.x += n
+        self.print_current(n)
+
+    def move_left(self, n):
+        self.x = 0 if n > self.x else self.x - n
+        self.print_current(n)
+
+    def print_current(self, n=0):
+        print(self.x, self.y, n)
+
+
+leo = Turtle(1, 1)
+leo.move_up(7)
+leo.move_left(5)
+leo.move_down(4)
+leo.move_right(6)
+leo.print_current()
+
+
+# Methods and attributes > Cone
+class Cone:
+    PI = 3.14
+
+    def __init__(self, radius, height):
+        self.radius = radius
+        self.height = height
+        self.base_area = None
+        self.slant_height = None
+        self.surface_area = None
+        self.volume = None
+
+    def get_base_area(self):
+        self.base_area = self.PI * (self.radius ** 2)
+
+    def get_parameters(self):
+        self.slant_height = math.sqrt((self.radius ** 2) + (self.height ** 2))
+        self.surface_area = self.PI * self.radius * self.slant_height
+        info = "Area of the base = {}\n".format(self.base_area)
+        info += "Volume = {}\n".format(self.volume)
+        info += "Surface area = {}".format(self.surface_area)
+        print(info)
+
+    def get_volume(self):
+        self.volume = (1/3) * self.base_area * self.height
+
+cone1 = Cone(1, 1)
+cone1.get_base_area()
+cone1.get_volume()
+cone1.get_parameters()
+
+
+# Methods and attributes > I have friends
+class User:
+    def __init__(self, username):
+        self.username = username
+        self.friends = 0
+
+    # fix this method
+    def add_friends(self, n):
+        self.friends += n
+        print("{} now has {} friends.".format(self.username, self.friends))
+
+
+user1 = User('Lucas Koh')
+user1.add_friends(1)
+
+
+# Methods and attributes > Lightbulb
+class Lightbulb:
+    def __init__(self):
+        self.state = "off"
+        # print(self.state)
+
+    def change_state(self):
+        # self.state = "on" if self.state is "off" else "on"
+        # if self.state is "off" : falied to pass
+        if self.state == "off":
+            self.state = "on"
+        else:
+            self.state = "off"
+
+        print(f'Turning the light {self.state}')
+
+    def change_state2(self):
+        self.state = 'off' if self.state == 'on' else 'on'
+        print(f"Turning the light {self.state}")
+
+
+lightbulb1 = Lightbulb()
+lightbulb1.change_state()
+lightbulb1.change_state()
+lightbulb1.change_state()
+
+lightbulb1 = Lightbulb()
+lightbulb1.change_state2()
+lightbulb1.change_state2()
+lightbulb1.change_state2()
+
+
+# Methods and attributes > Piggy bank
+class PiggyBank:
+    # create __init__ and add_money methods
+    def __init__(self, dollars, cents):
+        self.dollars = dollars
+        self.cents = cents
+        self.sum = 0
+    def add_money(self, deposit_dollars, deposit_cents):
+        total_cents = self.cents + deposit_cents
+
+        self.dollars += deposit_dollars + total_cents // 100
+        self.cents = total_cents % 100
+
+        # print(f'{self.dollars}.{self.cents}')
+
+    def add_money3(self, deposit_dollars, deposit_cents):
+        self.dollars += deposit_dollars
+        total_cents = self.cents + deposit_cents
+        self.cents = total_cents
+        if total_cents > 99:
+            self.dollars += total_cents // 100
+            self.cents = total_cents % 100
+
+    def add_money2(self, deposit_dollars, deposit_cents):
+        self.dollars += deposit_dollars
+
+        cents_sum = self.cents + deposit_cents
+        cents_sum_str = str(cents_sum)
+        self.cents = int(cents_sum_str[-2:])
+
+        # cents cannot be higher than 99
+        if cents_sum > 99:
+            self.dollars += int(str(cents_sum)[:-2])
+
+        # print(f'{self.dollars}.{self.cents}')
+
+    def add_money4(self, deposit_dollars, deposit_cents):
+        new_cents_total = self.cents + deposit_cents
+        if new_cents_total > 99:
+            self.dollars += deposit_dollars + round(new_cents_total / 100)
+            self.cents = new_cents_total % 100
+        else:
+            self.cents = new_cents_total
+            self.dollars += deposit_dollars
+
+
+pbank1 = PiggyBank(1, 1)
+pbank1.add_money(0, 99)
+
+pbank2 = PiggyBank(1, 1)
+pbank2.add_money(0, 88)
+
+pbank3 = PiggyBank(1, 1)
+pbank3.add_money(500, 500)
+
+
+def formatPrint(cents):
+    centsStr = str(cents)
+    d, c = centsStr[:-2], centsStr[-2:]
+    if cents > 99:
+        print(d + ' dollars and ' + c + ' cents')
+    else:
+        print('0 dollars and ' + c + ' cents')
+    return
+
+print(formatPrint(501))
+
+
