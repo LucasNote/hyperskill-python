@@ -1,210 +1,157 @@
-# Work on project. Stage 1/4: Card anatomy
-
+# Luhn algorithm
 """
-The very first digit is the Major Industry Identifier (MII), which tells you
-what sort of institution issued the card.
+The main purpose of the check digit is to verify that the card number is valid.
+Say you're buying something online, and you type in your credit card number incorrectly
+by accidentally swapping two digits, which is one of the most common errors.
+When the website looks at the number you've entered and applies the Luhn algorithm to the first 15 digits,
+the result won't match the 16th digit on the number you entered. The computer knows the number is invalid,
+and it knows the number will be rejected if it tries to submit the purchase for approval.
 
-1 and 2 are issued by airlines
-3 is issued by travel and entertainment
-4 and 5 are issued by banking and financial institutions
-6 is issued by merchandising and banking
-7 is issued by petroleum companies
-8 is issued by telecommunications companies
-9 is issued by national assignment
-In our banking system, credit cards should begin with 4.
+Another purpose of the check digit is to catch clumsy attempts to create fake credit card numbers.
 
-The first six digits are the Issuer Identification Number (IIN).
-These can be used to look up where the card originated from. If you have access to a list
-that provides detail on who owns each IIN, you can see who issued the card just by reading the card number.
+Luhn Algorithm in action
+The Luhn algorithm is used to validate a credit card number or other identifying numbers,
+such as Social Security. The Luhn algorithm, also called the Luhn formula or modulus 10,
+checks the sum of the digits in the card number and checks whether the sum matches the expected result
+or if there is an error in the number sequence. After working through the algorithm,
+if the total modulus 10 equals zero, then the number is valid according to the Luhn method.
 
-Here are a few you might recognize:
+If the received number is divisible by 10 with the remainder equal to zero, then this number is valid;
+otherwise, the card number is not valid. When registering in your banking system,
+you should generate cards with numbers that are checked by the Luhn algorithm.
+You know how to check the card for validity.
 
-Visa: 4*****
-American Express (AMEX): 34**** or 37****
-Mastercard: 51**** to 55****
-In our banking system, the IIN must be 400000.
+First, we need to generate an Account Identifier, which is unique to each card.
+Then we need to assign the Account Identifier to our BIN (Bank Identification Number).
+As a result, we get a 15-digit number 400000844943340, so we only have to generate the last digit,
+which is a checksum.
 
-The seventh digit to the second-to-last digit is the customer account number.
-Most companies use just 9 digits for the account numbers, but it’s possible to use up to 12.
-This means that using the current algorithm for credit cards, the world can issue about a trillion cards
-before it has to change the system.
+To find the checksum, it is necessary to find the control number for 400000844943340 by the Luhn algorithm.
+It equals 57 (from the example above). The final check digit of the generated map is 57+X,
+where X is checksum. In order for the final card number to pass the validity check,
+the check number must be a multiple of 10, so 57+X must be a multiple of 10.
+The only number that satisfies this condition is 3.
 
-We often see 16-digit credit card numbers today, but it’s possible to issue a card with up to 19 digits
-using the current system. In the future, we may see longer numbers becoming more common.
+Therefore, the checksum is 3. So the total number of the generated card is 4000008449433403.
+The received card is checked by the Luhn algorithm.
 
-In our banking system, the customer account number can be any, but it should be unique.
-And the whole card number should be 16-digit length.
-
-The very last digit of a credit card is the check digit or checksum. It is used to validate
-the credit card number using the Luhn algorithm, which we will explain in the next stage of this project.
-For now, the checksum can be any digit you like.
+You need to change the credit card generation algorithm so that they pass the Luhn algorithm.
 """
 
-# Objectives
-"""
-Objectives
-You should allow customers to create a new account in our banking system.
+# value= '400000844943340'
+# 4 + 8 + 4 + 4 + 9 + 4 + 3 + 3 + 4
+orginal_number =                    '4000008449433403'
+drop_the_last_digit =               '400000844943340'
+multiply_odd_digits_by_2 =          '800000(16)48983640'
+subtract_9_from_numbers_over_9 =    '800000748983640'
+add_all_numbers =                   '800000748983643'
 
-Once the program starts, you should print the menu:
+sum = 0
+for v in orginal_number:
+    if v.isdigit():
+        sum += int(v)
+print(sum)
 
-1. Create an account
-2. Log into account
-0. Exit
-If the customer chooses ‘Create an account’, you should generate a new card number which 
-satisfies all the conditions described above. Then you should generate a PIN code that 
-belongs to the generated card number. A PIN code is a sequence of any 4 digits. 
-PIN should be generated in a range from 0000 to 9999.
+# not working
+# total = sum(map(int, filter(str.isdigit, value.split())))
+# print(total)
 
-If the customer chooses ‘Log into account’, you should ask them to enter their card information. 
-Your program should store all generated data until it is terminated so that a user is able to 
-log into any of the created accounts by a card number and its pin. You can use an array to store the information.
+def sum_digits_string(str1):
+    sum_digit = 0
+    for x in str1:
+        if x.isdigit() == True:
+            z = int(x)
+            sum_digit = sum_digit + z
 
-After all information is entered correctly, you should allow the user to check the account balance; 
-right after creating the account, the balance should be 0. It should also be possible to 
-log out of the account and exit the program.
-"""
+    return sum_digit
 
-import random
+sum2 = sum_digits_string(orginal_number)
+print('orginal_number', sum_digits_string(orginal_number))
+print('subtract_9_from_numbers_over_9', sum_digits_string(subtract_9_from_numbers_over_9))
+print('add_all_numbers', sum_digits_string(add_all_numbers))
 
-id_index = 0
-inn = '400000'          # Issuer Identification Number (IIN)
-can_length = 9          # Customer Identification Number
-checksum = '5'          # any value is okay for now
-current_account = None
+# Convert string digits to a int list
+card_number_list = list(map(int, str(orginal_number)))
+print(card_number_list)
 
-accounts = []       # card_num, pin, balance, logged_in
+# Convert list to string
+listToStr = ''.join(map(str, card_number_list))
+print(str(listToStr))
 
-def get_new_card_id():
-    global inn
-    global id_index
-    global checksum
 
-    id_index = id_index + 1
-    can_str = f"{id_index:09d}"
-    new_id = inn + can_str + checksum
+# org_num_list = list(str(orginal_number))
+# org_num_list_int = list(map(int, org_num_list))
+# print(org_num_list)
+# print(org_num_list_int)
 
-    return new_id
 
-def get_new_pin():
-    num = random.randint(1000,9999)
-    return str(num)
+# [Convert number to list of integers]
+# initializing number
+num = 2019
 
-def get_balance(card_id):
-    found = find_account(card_id)
-    index = found[0]
-    account = found[1]
+# printing number
+print ("The original number is " + str(num))
 
-    if index > -1:
-        print(f'Balance: {account[2]}')
-        print()
-        # return account[2]
+# using list comprehension
+# to convert number to list of integers
+res = [int(x) for x in str(num)]
 
-def create_account():
-    global accounts
+# printing result
+print ("The list from number is " + str(res))
 
-    new_id = get_new_card_id()
-    new_pin = get_new_pin()
 
-    accounts.append([new_id, new_pin, 0, False])
+# Python program to convert a list
+# to string using list comprehension
+s = ['I', 'want', 4, 'apples', 'and', 18, 'bananas']
 
-    print('Your card has been created')
-    print('Your card number:')
-    print(new_id)
-    print('Your card PIN:')
-    print(new_pin)
-    print()
+# using list comprehension
+listToStr = ' '.join(map(str, s))
 
-def find_account(card_id):
-    global accounts
+print(listToStr)
 
-    for index, row in enumerate(accounts):
-        try:
-            column = row.index(card_id)
-        except ValueError:
-            continue
-        # return row, index, column
-        return [index, row]
 
-    return [-1, -1]
+# orginal_number =                    '4000008449433403'
+# drop_the_last_digit =               '400000844943340'
+# multiply_odd_digits_by_2 =          '800000(16)48983640'
+# subtract_9_from_numbers_over_9 =    '800000748983640'
+# add_all_numbers =                   '800000748983643'
 
-def update_account(index, account):
-    global accounts
-    accounts[index] = account
+# 1. Convert str to a list with int
+card_number_list = list(map(int, str(orginal_number)))
+print(card_number_list)
 
-def print_menu():
-    global current_account
+# 2. Drop the last digit
+card_number_list = card_number_list[:-1]
+print(card_number_list)
 
-    if current_account is None:
-        print('1. Create an account')
-        print('2. Log into account')
-        print('0. Exit')
-    else:
-        print('1. Balance')
-        print('2. Log out')
-        print('0. Exit')
+# 3. Multiply odd digits by 2
+# [8, 0, 0, 0, 0, 0, 16, 4, 8, 9, 8, 3, 6, 4, 0]
+for a in range(1, len(card_number_list) + 1, 2):
+    print(a, card_number_list[a - 1], card_number_list[a - 1] * 2)
+    card_number_list[a - 1] *= 2
 
-def log_in():
-    global current_account
+# 4. Subtract 9 from numbers over 9
+# [8, 0, 0, 0, 0, 0, 7, 4, 8, 9, 8, 3, 6, 4, 0]
+def subtract9_over9(lst):
+    for idx, val in enumerate(lst):
+        if val > 9:
+            print(idx, val)
+            card_number_list[idx] -= 9
 
-    # find id and pin from the account array
-    card_str = input('Enter your card number:')
-    pin_str = input('Enter your PIN:')
+subtract9_over9(card_number_list)
+print(card_number_list)
 
-    found = find_account(card_str)
-    index = found[0]
-    account = found[1]
+# 5. Add all numbers
 
-    if index > -1 and account[1] == pin_str:
-        account[3] = True
-        update_account(index, account)
-        current_account = account
 
-        print('You have successfully logged in!')
-        print()
-    else:
-        print()
-        print('Wrong card number or PIN!')
-        print()
+# for loop with index
+colors = ["red", "green", "blue", "purple"]
+for i in range(len(colors)):
+    print(colors[i])
 
-    return account
-
-def log_out(card_id):
-    global current_account
-
-    found = find_account(card_id)
-    index = found[0]
-    account = found[1]
-
-    if index > -1:
-        account[3] = False
-        update_account(index, account)
-        current_account = None
-
-        print('You have successfully logged out!')
-        print()
-
-choice = -1
-while choice != "0":
-    print_menu()
-    choice = input()
-    if choice == '0':
-        current_account = None
-        print("Bye!")
-        break
-    else:
-        number = int(choice)
-
-        if current_account is None:
-            if number == 1:
-                create_account()
-            elif number == 2:
-                log_in()
-        else:
-            card_id = current_account[0]
-            if number == 1:
-                get_balance(card_id)
-            elif number == 2:
-                log_out(card_id)
-
+# enumerate
+presidents = ["Washington", "Adams", "Jefferson", "Madison", "Monroe", "Adams", "Jackson"]
+for num, name in enumerate(presidents, start=0):
+    print("President {}: {}".format(num, name))
 
 

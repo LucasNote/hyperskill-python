@@ -1,96 +1,104 @@
-# Write your code here
 import random
-class Banking():
 
+
+class SimpleBank:
     def __init__(self):
-        self.iin = 400000
-        self.balance = 0
-        self.out = False
-        self.out2 = False
+        self.accounts = []
 
-    def menu(self):
-        while True:
-            if self.out2 == True:
-                return
-            print(" ")
-            print("1. Create an account")
-            print("2. Log into account")
-            print("0. Exit")
+    def create_account(self):
+        # Use a random int for seed
+        random.seed(random.randint(1000000, 9999999))
+        # Generate new account number
+        new_account_number = random.randint(100000000, 999999999)
+        # Create dictionary to hold account data
+        acct = dict([
+            ('account_number', str(new_account_number)),
+            ('card_number', "400000" + str(new_account_number) + "9"),
+            ('card_pin', str(random.randint(1000, 9999))),
+            ('balance', float(0))
+        ])
+        # Append new account data to self.accounts - Use account.copy() with append(). Appending
+        # account directly would produce a reference instead of a copy of the data
+        self.accounts.append(acct.copy())
+        # Print a summary
+        print("Your card has been created", "Your card number:", f"{acct['card_number']}", "Your card PIN:",
+              f"{acct['card_pin']}", sep="\n")
 
-            self.decide = int(input())
-            if self.decide == 1:
-                Banking.create(self)
-            elif self.decide == 2:
-                Banking.checkCard(self)
-            elif self.decide == 0:
-                self.out2 = True
-                print("Bye!")
-                return
+    def find_account(self, card_num):
+        # The next function allows a default value to be specified if no account stored in
+        # self.accounts matches the value of card_num. In this case, the default value is None.
+        return next((acct for acct in self.accounts if acct['card_number'] == str(card_num)), None)
 
-    def card(self):
-        self.y = 0
-        self.x = ""
-        self.card1 = ""
-        self.realcard = ""
-        self.pincard = ""
-        self.iin2 = str(self.iin)
-        for i in range(10):
-            self.y = random.randint(0, 9)
-            self.x = str(self.y)
-            self.card1 = self.card1 + self.x
-        self.realcard = self.iin2 + self.card1
-        for i in range(4):
-            self.x = random.randint(0, 9)
-            self.y = str(self.x)
-            self.pincard = self.pincard + self.y
+    def authenticate(self, card_num, pin):
+        # Find account by card_num
+        acct = self.find_account(card_num)
+        if acct is not None:
+            # Validate card_pin
+            if str(pin) == str(acct['card_pin']):
+                return True
+        return False
 
-    def login(self):
-        while True:
-            if self.out == True:
-                return
-            print(" ")
-            print("1. Balance")
-            print("2. Log out")
-            print("0. Exit")
 
-            self.decide = int(input())
-            if self.decide == 1:
-                print(" ")
-                print("Balance:",self.balance)
-            elif self.decide == 2:
-                print(" ")
-                print("You have successfully logged out!")
-                self.out = True
-                Banking.menu(self)
-            elif self.decide == 0:
-                print("Bye!")
-                self.out2 = True
-                break
+def print_main_menu():
+    print(10 * "-", "Main Menu", 10 * "-")
+    print("1. Create an account", "2. Log into account", "0. Exit", sep="\n")
+    print(31 * "-")
 
-    def create(self):
-        Banking.card(self)
-        print(" ")
-        print("Your card has been created")
-        print("Your card number:")
-        print(self.realcard)
-        print("Your card PIN:")
-        print(self.pincard)
 
-    def checkCard(self):
-        print(" ")
-        print("Enter your card number:")
-        self.tempcard = input()
-        print("Enter your PIN:")
-        self.temppin = input()
+def print_account_menu():
+    print(10 * "-", "Account Menu", 10 * "-")
+    print("1. Balance", "2. Log out", "0. Exit", sep="\n")
+    print(31 * "-")
 
-        if self.tempcard == self.realcard and self.temppin == self.pincard:
-            print(" ")
+
+def terminate():
+    print("Bye!")
+    quit(0)
+
+
+main_menu_loop = True
+account_menu_loop = False
+bank = SimpleBank()
+
+while main_menu_loop:
+    # Print main menu and get selection
+    print_main_menu()
+    main_menu_choice = int(input())
+    if main_menu_choice == 1:
+        # Create new account
+        bank.create_account()
+    elif main_menu_choice == 2:
+        # Log into account
+        card_number = input("Enter your card number:")
+        card_pin = input("Enter card PIN:")
+        if bank.authenticate(card_number, card_pin):
+            # Authentication successful
             print("You have successfully logged in!")
-            Banking.login(self)
+            account_menu_loop = True
+            while account_menu_loop:
+                # Find account
+                account = bank.find_account(card_number)
+                # Print account menu and get selection
+                print_account_menu()
+                account_menu_choice = int(input())
+                if account_menu_choice == 1:
+                    # Format balance float to two decimal places
+                    print('Balance: ${:,.2f}'.format(account['balance']))
+                elif account_menu_choice == 2:
+                    # Clear existing data from account, return to main menu
+                    account = None
+                    account_menu_loop = False
+                    print("You have successfully logged out!")
+                elif account_menu_choice == 0:
+                    # Terminate program
+                    terminate()
+                else:
+                    print("Invalid selection!")
         else:
-            print(" ")
+            # Authentication failed
             print("Wrong card number or PIN!")
-            Banking.menu(self)
-
-card1 = Banking()
-card1.menu()
+    elif main_menu_choice == 0:
+        # Terminate program
+        terminate()
+    else:
+        print("Invalid selection!")
