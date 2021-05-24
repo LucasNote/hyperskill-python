@@ -71,11 +71,12 @@ listToStr = ' '.join(map(str, s))
 print(listToStr)
 
 
-# orginal_number =                    '4000008449433403'
-# drop_the_last_digit =               '400000844943340'
-# multiply_odd_digits_by_2 =          '800000(16)48983640'
-# subtract_9_from_numbers_over_9 =    '800000748983640'
-# add_all_numbers =                   '800000748983643'
+orginal_number =                    '4000008449433403'
+drop_the_last_digit =               '400000844943340'
+multiply_odd_digits_by_2 =          '800000(16)48983640'
+subtract_9_from_numbers_over_9 =    '800000748983640'
+add_all_numbers =                   '800000748983643'
+
 
 # 1. Convert str to a list with int
 card_number_list = list(map(int, str(orginal_number)))
@@ -103,6 +104,31 @@ subtract9_over9(card_number_list)
 print(card_number_list)
 
 # 5. Add all numbers
+sum_card_number = sum(card_number_list)
+print(sum_card_number)
+
+
+# To find the checksum, it is necessary to find the control number for 400000844943340 by the Luhn algorithm.
+# It equals 57 (from the example above). The final check digit of the generated map is 57+X, where X is checksum.
+# In order for the final card number to pass the validity check, the check number must be a multiple of 10,
+# so 57+X must be a multiple of 10. The only number that satisfies this condition is 3.
+def get_checksum(sum_card_number):
+    first_digit = int(str(sum_card_number)[-1])
+    check_sum = 10 - first_digit
+
+    return check_sum
+
+first_digit = get_checksum(sum_card_number)
+first_digit
+
+
+
+# Two ways, 1: subtract 10 - the first digit, 2: adding 1 and check dividend is 0
+first_digit = int(str(sum_card_number)[-1])
+check_sum = 10 - first_digit
+check_sum
+
+
 
 
 
@@ -115,4 +141,23 @@ for i in range(len(colors)):
 presidents = ["Washington", "Adams", "Jefferson", "Madison", "Monroe", "Adams", "Jackson"]
 for num, name in enumerate(presidents, start=0):
     print("President {}: {}".format(num, name))
+
+
+# git commit -m "Simple Banking System #2 - 3, 20210522, Mac_2018", failed
+
+
+# Python code to demonstrate the working of
+# sum()
+numbers = [1, 2, 3, 4, 5, 1, 4, 5]
+
+# start parameter is not provided
+Sum = sum(numbers)
+print(Sum)
+
+# start = 10
+Sum = sum(numbers, 10)
+print(Sum)
+
+Sum = sum(card_number_list)
+print(Sum)
 
