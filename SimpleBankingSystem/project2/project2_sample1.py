@@ -2,6 +2,8 @@ from random import randint
 
 
 class Bank:
+    iin = 400000
+
     def __init__(self):
         self.accounts = {}
 
@@ -35,11 +37,9 @@ class Bank:
         print(menu)
 
     def create_an_account(self):
-        account_ids = self.get_account_ids()
-        account_id = randint(0, 999999999)
-        while account_id in account_ids:
-            account_id = randint(0, 999999999)
-        new_account = CreditCard(account_id)
+        account_id = self.generate_account_id()
+        check_sum = self.generate_check_sum(account_id)
+        new_account = CreditCard(Bank.iin, account_id, check_sum)
         self.add_account(new_account)
         print("\nYour card has been created")
         print("Your card number:")
@@ -47,6 +47,34 @@ class Bank:
         print("Your card PIN:")
         print(new_account.get_pin())
         print()
+
+    def generate_account_id(self):
+        account_ids = self.get_account_ids()
+        account_id = randint(0, 999999999)
+        while account_id in account_ids:
+            account_id = randint(0, 999999999)
+        return account_id
+
+    @staticmethod
+    def generate_check_sum(account_id):
+        """
+        Implements the Luhn Algorithm to generate an appropriate checksum.
+        :param account_id: an integer between 0 and 999999999
+        :return: an integer between 0 and 9
+        """
+        card_number = str(Bank.iin) + str(account_id).zfill(9)
+        step_one = []
+        for i in range(len(card_number)):
+            digit = int(card_number[i])
+            if i % 2 == 0:
+                digit *= 2
+                if digit > 9:
+                    digit -= 9
+            step_one.append(digit)
+        step_two = sum(step_one)
+        remainder = step_two % 10
+        check_sum = (10 - remainder) if remainder else remainder
+        return check_sum
 
     def get_account_ids(self):
         account_ids = list(self.accounts.keys())
@@ -96,11 +124,10 @@ class Bank:
 
 
 class CreditCard:
-    iin = 400000
-
-    def __init__(self, account_id):
+    def __init__(self, iin, account_id, check_sum):
+        self.iin = iin
         self.account_id = account_id
-        self.check_sum = randint(1, 9)
+        self.check_sum = check_sum
         self.pin = randint(0, 9999)
         self.balance = 0
 
@@ -116,7 +143,7 @@ class CreditCard:
         return account_id
 
     def get_card_number(self):
-        card_number = "{}".format(CreditCard.iin) \
+        card_number = "{}".format(self.iin) \
                       + "{}".format(self.account_id).zfill(9) \
                       + "{}".format(self.check_sum)
         return card_number
