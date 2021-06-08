@@ -144,4 +144,5 @@ is_click boolean
 );
 """
 
-
+# Literals > Extract decimal literal
+# SELECT CAST(256 AS DECIMAL(10,2))
